@@ -1,22 +1,36 @@
 import 'package:flutter/material.dart';
-import 'package:very_good_coffee_app/counter/counter.dart';
+import 'package:go_router/go_router.dart';
+import 'package:very_good_coffee_app/app/global_repository_provider.dart';
+import 'package:very_good_coffee_app/app/routes.dart';
 import 'package:very_good_coffee_app/l10n/l10n.dart';
 
+final GlobalKey<NavigatorState> _rootNavigatorKey =
+    GlobalKey<NavigatorState>(debugLabel: 'rootNavigator');
+
 class App extends StatelessWidget {
-  const App({super.key});
+  App({super.key});
+
+  final GoRouter _router = GoRouter(
+    navigatorKey: _rootNavigatorKey,
+    initialLocation: '/',
+    debugLogDiagnostics: true,
+    routes: $appRoutes,
+  );
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(
-        appBarTheme: AppBarTheme(
-          backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+    return GlobalRepositoryProvider(
+      child: MaterialApp.router(
+        theme: ThemeData(
+          brightness: Brightness.dark,
+          colorSchemeSeed: Colors.brown,
+          appBarTheme: const AppBarTheme(),
         ),
-        useMaterial3: true,
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+        debugShowCheckedModeBanner: false,
+        routerConfig: _router,
       ),
-      localizationsDelegates: AppLocalizations.localizationsDelegates,
-      supportedLocales: AppLocalizations.supportedLocales,
-      home: const CounterPage(),
     );
   }
 }
