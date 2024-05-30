@@ -1,13 +1,13 @@
 // ignore_for_file: prefer_const_constructors, lines_longer_than_80_chars
 
-import 'dart:typed_data';
-
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:very_good_coffee_app/coffee_home/coffee_home.dart';
 import 'package:very_good_coffee_app/repositories/coffee/coffee.dart';
 import 'package:very_good_coffee_app/services/services.dart';
+
+import '../../helpers/helpers.dart';
 
 class MockApiService extends Mock implements ApiService {}
 
@@ -29,7 +29,7 @@ void main() {
     when(mockCoffeeRepository.getRandomCoffee).thenAnswer(
       (_) async => Coffee(
         file: testFilePath,
-        image: Uint8List(0),
+        image: testMemoryImage,
       ),
     );
   });
@@ -64,7 +64,7 @@ void main() {
         CoffeeHomeLoaded(
           coffee: Coffee(
             file: testFilePath,
-            image: Uint8List(0),
+            image: testMemoryImage,
           ),
         ),
       ],
