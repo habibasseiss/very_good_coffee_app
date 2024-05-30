@@ -1,7 +1,0 @@
-{
-    "@@locale": "es",
-    "likeButton": "Me gusta",
-    "@likeButton": {
-        "description": "Botón para indicar que te gusta algo"
-    }
-}

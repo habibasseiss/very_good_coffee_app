@@ -1,3 +1,4 @@
+import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'coffee.g.dart';
@@ -5,7 +6,7 @@ part 'coffee.g.dart';
 @JsonSerializable(
   fieldRename: FieldRename.snake,
 )
-class Coffee {
+class Coffee extends Equatable {
   const Coffee({
     required this.file,
   });
@@ -19,4 +20,9 @@ class Coffee {
 
   /// Connect the generated [_$CoffeeToJson] function to the `toJson` method.
   Map<String, dynamic> toJson() => _$CoffeeToJson(this);
+
+  @override
+  List<Object?> get props => [
+        file,
+      ];
 }

@@ -3,7 +3,7 @@ import 'package:mocktail/mocktail.dart';
 import 'package:very_good_coffee_app/repositories/coffee/coffee.dart';
 import 'package:very_good_coffee_app/services/services.dart';
 
-const apiUrl = 'https://coffee.alexflipnote.dev';
+import '../helpers/helpers.dart';
 
 class MockApiService extends Mock implements ApiService {}
 

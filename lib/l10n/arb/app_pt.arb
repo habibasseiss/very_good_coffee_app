@@ -1,7 +1,0 @@
-{
-    "@@locale": "pt",
-    "likeButton": "Curtir",
-    "@likeButton": {
-        "description": "Botão para curtir um item"
-    }
-}
