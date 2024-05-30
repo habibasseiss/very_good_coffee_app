@@ -3,11 +3,11 @@ import 'package:mocktail/mocktail.dart';
 import 'package:very_good_coffee_app/repositories/coffee/coffee.dart';
 import 'package:very_good_coffee_app/services/services.dart';
 
-import '../helpers/helpers.dart';
-
 class MockApiService extends Mock implements ApiService {}
 
 void main() {
+  const testFilePath = 'https://apitest.dev/GhoCm_jVlXg_coffee.png';
+
   TestWidgetsFlutterBinding.ensureInitialized();
 
   final mockApiService = MockApiService();
@@ -19,7 +19,7 @@ void main() {
     setUp(() {
       when(() => mockApiService.get('/random.json')).thenAnswer(
         (_) async => <String, dynamic>{
-          'file': '$apiUrl/GhoCm_jVlXg_coffee.png',
+          'file': testFilePath,
         },
       );
     });
@@ -29,7 +29,7 @@ void main() {
         isA<Coffee>().having(
           (c) => c.file,
           'file url',
-          '$apiUrl/GhoCm_jVlXg_coffee.png',
+          testFilePath,
         ),
       );
     });

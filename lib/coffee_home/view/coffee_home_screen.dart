@@ -17,7 +17,7 @@ class CoffeeHomeScreen extends StatelessWidget {
     return BlocProvider(
       create: (context) => CoffeeHomeBloc(
         coffeeRepository: context.read(),
-      )..add(const LoadRandomPhotoEvent()),
+      )..add(const LoadRandomCoffeeEvent()),
       child: const CoffeeHomeView(),
     );
   }
@@ -34,10 +34,20 @@ class CoffeeHomeView extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
 
+    final state = context.select((CoffeeHomeBloc bloc) => bloc.state);
+
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
+        leading: IconButton(
+          icon: const Icon(Icons.refresh),
+          onPressed: state is CoffeeHomeLoading
+              ? null
+              : () => context.read<CoffeeHomeBloc>().add(
+                    const LoadRandomCoffeeEvent(),
+                  ),
+        ),
         actions: [
           IconButton(
             icon: const Icon(Icons.list),
@@ -54,19 +64,21 @@ class CoffeeHomeView extends StatelessWidget {
           _PageGradient(),
         ],
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        backgroundColor: Colors.transparent,
-        focusElevation: 0,
-        hoverElevation: 0,
-        disabledElevation: 0,
-        highlightElevation: 0,
-        elevation: 0,
-        onPressed: () {},
-        label: Text(l10n.likeButton),
-        icon: const Icon(
-          Icons.favorite_border,
-        ),
-      ),
+      floatingActionButton: state is CoffeeHomeLoading
+          ? null
+          : FloatingActionButton.extended(
+              backgroundColor: Colors.transparent,
+              focusElevation: 0,
+              hoverElevation: 0,
+              disabledElevation: 0,
+              highlightElevation: 0,
+              elevation: 0,
+              onPressed: () {},
+              label: Text(l10n.likeButton),
+              icon: const Icon(
+                Icons.favorite_border,
+              ),
+            ),
     );
   }
 }
@@ -87,8 +99,8 @@ class _ImageDisplay extends StatelessWidget {
           CoffeeHomeLoading() => const Center(
               child: CircularProgressIndicator(),
             ),
-          CoffeeHomeLoaded() => Image.network(
-              state.coffee.file,
+          CoffeeHomeLoaded() => Image.memory(
+              state.coffee.image!,
               fit: BoxFit.cover,
             ),
           CoffeeHomeError() || _ => const Center(

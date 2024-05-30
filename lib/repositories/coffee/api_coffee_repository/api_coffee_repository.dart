@@ -1,3 +1,4 @@
+import 'package:http/http.dart' as http;
 import 'package:very_good_coffee_app/repositories/coffee/coffee.dart';
 import 'package:very_good_coffee_app/services/services.dart';
 
@@ -16,9 +17,20 @@ class ApiCoffeeRepository extends CoffeeRepository {
   @override
   Future<Coffee> getRandomCoffee() async {
     try {
+      // Fetch a random coffee from the API.
       final response = await _apiService.get('/random.json');
 
-      return Coffee.fromJson(response);
+      // Create a [Coffee] object from the API response.
+      final coffee = Coffee.fromJson(response);
+
+      // Manually fetch the image from the obtained url and store it in memory.
+      final imageUrl = response['file'] as String;
+      final imageResponse = await http.get(Uri.parse(imageUrl));
+      final image = imageResponse.bodyBytes;
+
+      return coffee.copyWith(
+        image: image,
+      );
     } on Exception catch (e) {
       throw GetRandomCoffeeFailure('Failed to fetch a random coffee: $e');
     }

@@ -12,13 +12,13 @@ class CoffeeHomeBloc extends Bloc<CoffeeHomeEvent, CoffeeHomeState> {
     required CoffeeRepository coffeeRepository,
   })  : _coffeeRepository = coffeeRepository,
         super(const CoffeeHomeInitial()) {
-    on<LoadRandomPhotoEvent>(_onLoadRandomPhotoEvent);
+    on<LoadRandomCoffeeEvent>(_onLoadRandomPhotoEvent);
   }
 
   final CoffeeRepository _coffeeRepository;
 
   FutureOr<void> _onLoadRandomPhotoEvent(
-    LoadRandomPhotoEvent event,
+    LoadRandomCoffeeEvent event,
     Emitter<CoffeeHomeState> emit,
   ) async {
     emit(const CoffeeHomeLoading());

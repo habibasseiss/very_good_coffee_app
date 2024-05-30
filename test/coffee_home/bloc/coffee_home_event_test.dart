@@ -8,15 +8,15 @@ void main() {
     group('LoadRandomPhotoEvent', () {
       test('supports value equality', () {
         expect(
-          LoadRandomPhotoEvent(),
-          equals(const LoadRandomPhotoEvent()),
+          LoadRandomCoffeeEvent(),
+          equals(const LoadRandomCoffeeEvent()),
         );
       });
     });
     group('constructor', () {
       test('can be instantiated', () {
         expect(
-          const LoadRandomPhotoEvent(),
+          const LoadRandomCoffeeEvent(),
           isNotNull,
         );
       });

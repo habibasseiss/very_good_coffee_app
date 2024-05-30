@@ -1,0 +1,2 @@
+#!/bin/sh
+very_good test --test-randomize-ordering-seed random --coverage && genhtml ./coverage/lcov.info -o coverage && open ./coverage/index.html
