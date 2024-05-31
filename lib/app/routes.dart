@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:very_good_coffee_app/features/favorites/favorite_details_screen.dart';
 import 'package:very_good_coffee_app/features/favorites/favorites.dart';
 import 'package:very_good_coffee_app/features/home/home.dart';
 
 part 'routes.g.dart';
+
+final GlobalKey<NavigatorState> rootNavigatorKey =
+    GlobalKey<NavigatorState>(debugLabel: 'rootNavigator');
 
 @TypedGoRoute<HomeRoute>(
   path: '/',

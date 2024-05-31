@@ -9,6 +9,7 @@ import '../../helpers/helpers.dart';
 void main() {
   final coffee = Coffee(
     image: testMemoryImage,
+    url: 'https://example.com/image.jpg',
   );
 
   group('FavoritesEvent', () {

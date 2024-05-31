@@ -94,7 +94,7 @@ class _ImageDisplay extends StatelessWidget {
               child: CircularProgressIndicator(),
             ),
           HomeLoaded() => Image.memory(
-              state.coffee.image!,
+              state.coffee.image,
               fit: BoxFit.cover,
             ),
           HomeError() || _ => const Center(

@@ -7,7 +7,12 @@ import 'package:very_good_coffee_app/repositories/favorites/favorites.dart';
 import 'package:very_good_coffee_app/services/database_service/database_service.dart';
 import 'package:very_good_coffee_app/services/services.dart';
 
+/// {@template global_repository_provider}
+/// A provider widget that provides global repositories to the widget tree. It
+/// instantiates [ApiService], [CoffeeRepository] and [FavoritesRepository].
+/// {@endtemplate}
 class GlobalRepositoryProvider extends StatelessWidget {
+  /// {@macro global_repository_provider}
   const GlobalRepositoryProvider({
     required this.child,
     super.key,

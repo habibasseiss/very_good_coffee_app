@@ -13,24 +13,6 @@ class FavoritesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => FavoritesBloc(
-        favoritesRepository: context.read(),
-      )..add(const LoadFavoritesEvent()),
-      child: const FavoritesView(),
-    );
-  }
-}
-
-/// {@template favorites_view}
-/// Displays the Body of FavoritesView
-/// {@endtemplate}
-class FavoritesView extends StatelessWidget {
-  /// {@macro favorites_view}
-  const FavoritesView({super.key});
-
-  @override
-  Widget build(BuildContext context) {
     final l10n = context.l10n;
 
     return Scaffold(
@@ -63,9 +45,12 @@ class FavoritesView extends StatelessWidget {
               onTap: () =>
                   FavoriteDetailsRoute(id: state.coffees[index].id.toString())
                       .go(context),
-              child: Image.memory(
-                state.coffees[index].image!,
-                fit: BoxFit.cover,
+              child: Hero(
+                tag: state.coffees[index].url,
+                child: Image.memory(
+                  state.coffees[index].image,
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
           );

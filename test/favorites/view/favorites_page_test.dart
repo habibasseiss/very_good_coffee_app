@@ -11,31 +11,38 @@ import 'package:very_good_coffee_app/repositories/favorites/favorites.dart';
 
 class MockFavoritesRepository extends Mock implements FavoritesRepository {}
 
-class MockCoffeeHomeBloc extends MockBloc<FavoritesEvent, FavoritesState>
+class MockFavoritesBloc extends MockBloc<FavoritesEvent, FavoritesState>
     implements FavoritesBloc {}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   final mockFavoritesRepository = MockFavoritesRepository();
+  final favoritesBloc = MockFavoritesBloc();
 
   group('FavoritesScreen', () {
     setUp(() {
       when(mockFavoritesRepository.getFavorites).thenAnswer(
         (_) async => [],
       );
+      when(() => favoritesBloc.state).thenReturn(
+        const FavoritesState(),
+      );
     });
     testWidgets('renders FavoritesView', (tester) async {
       await tester.pumpWidget(
         RepositoryProvider<FavoritesRepository>(
           create: (context) => mockFavoritesRepository,
-          child: const MaterialApp(
-            localizationsDelegates: AppLocalizations.localizationsDelegates,
-            home: FavoritesScreen(),
+          child: BlocProvider<FavoritesBloc>(
+            create: (context) => favoritesBloc,
+            child: const MaterialApp(
+              localizationsDelegates: AppLocalizations.localizationsDelegates,
+              home: FavoritesScreen(),
+            ),
           ),
         ),
       );
-      expect(find.byType(FavoritesView), findsOneWidget);
+      expect(find.byType(FavoritesScreen), findsOneWidget);
     });
     // TODO(habib): Add more widget tests
   });

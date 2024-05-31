@@ -96,7 +96,7 @@ class _$DatabaseService extends DatabaseService {
       },
       onCreate: (database, version) async {
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `coffees` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `url` TEXT, `image` TEXT)');
+            'CREATE TABLE IF NOT EXISTS `coffees` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `url` TEXT NOT NULL, `image` TEXT NOT NULL)');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -149,18 +149,18 @@ class _$CoffeeDao extends CoffeeDao {
   Future<List<Coffee>> selectAllCoffees() async {
     return _queryAdapter.queryList('SELECT * FROM coffees',
         mapper: (Map<String, Object?> row) => Coffee(
-            image: _imageTypeConverter.decode(row['image'] as String?),
-            id: row['id'] as int?,
-            url: row['url'] as String?));
+            image: _imageTypeConverter.decode(row['image'] as String),
+            url: row['url'] as String,
+            id: row['id'] as int?));
   }
 
   @override
   Stream<Coffee?> selectCoffeeById(int id) {
     return _queryAdapter.queryStream('SELECT * FROM coffees WHERE id = ?1',
         mapper: (Map<String, Object?> row) => Coffee(
-            image: _imageTypeConverter.decode(row['image'] as String?),
-            id: row['id'] as int?,
-            url: row['url'] as String?),
+            image: _imageTypeConverter.decode(row['image'] as String),
+            url: row['url'] as String,
+            id: row['id'] as int?),
         arguments: [id],
         queryableName: 'coffees',
         isView: false);

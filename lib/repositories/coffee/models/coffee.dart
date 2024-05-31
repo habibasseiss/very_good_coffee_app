@@ -7,18 +7,18 @@ import 'package:floor/floor.dart';
 class Coffee extends Equatable {
   const Coffee({
     required this.image,
+    required this.url,
     this.id,
-    this.url,
   });
 
   @PrimaryKey(autoGenerate: true)
   final int? id;
 
   /// The url of the Coffee image.
-  final String? url;
+  final String url;
 
   /// The image data of the Coffee.
-  final Uint8List? image;
+  final Uint8List image;
 
   @override
   List<Object?> get props => [
