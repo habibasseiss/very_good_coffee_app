@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:very_good_coffee_app/app/routes.dart';
 import 'package:very_good_coffee_app/coffee_home/coffee_home.dart';
+import 'package:very_good_coffee_app/favorites/favorites.dart';
 import 'package:very_good_coffee_app/l10n/l10n.dart';
 
 /// {@template coffee_home_screen}
@@ -14,10 +15,19 @@ class CoffeeHomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => CoffeeHomeBloc(
-        coffeeRepository: context.read(),
-      )..add(const LoadRandomCoffeeEvent()),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => CoffeeHomeBloc(
+            coffeeRepository: context.read(),
+          )..add(const LoadRandomCoffeeEvent()),
+        ),
+        BlocProvider(
+          create: (context) => FavoritesBloc(
+            favoritesRepository: context.read(),
+          ),
+        ),
+      ],
       child: const CoffeeHomeView(),
     );
   }
@@ -73,7 +83,11 @@ class CoffeeHomeView extends StatelessWidget {
               disabledElevation: 0,
               highlightElevation: 0,
               elevation: 0,
-              onPressed: () {},
+              onPressed: () => context.read<FavoritesBloc>().add(
+                    AddFavoriteCoffeeEvent(
+                      coffee: (state as CoffeeHomeLoaded).coffee,
+                    ),
+                  ),
               label: Text(l10n.likeButton),
               icon: const Icon(
                 Icons.favorite_border,

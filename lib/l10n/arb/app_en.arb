@@ -3,5 +3,9 @@
     "likeButton": "Like",
     "@likeButton": {
         "description": "Label for the like button"
+    },
+    "favorites": "Favorites",
+    "@favorites": {
+        "description": "Label for the favorites label"
     }
 }

@@ -1,7 +1,9 @@
 import 'dart:typed_data';
 
 import 'package:equatable/equatable.dart';
+import 'package:floor/floor.dart';
 
+@Entity(tableName: 'coffees')
 class Coffee extends Equatable {
   const Coffee({
     required this.image,
@@ -9,6 +11,7 @@ class Coffee extends Equatable {
     this.url,
   });
 
+  @PrimaryKey(autoGenerate: true)
   final int? id;
 
   /// The url of the Coffee image.

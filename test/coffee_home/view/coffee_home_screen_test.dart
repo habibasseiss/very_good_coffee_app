@@ -5,6 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:very_good_coffee_app/app/routes.dart';
 import 'package:very_good_coffee_app/coffee_home/coffee_home.dart';
+import 'package:very_good_coffee_app/favorites/favorites.dart';
 import 'package:very_good_coffee_app/l10n/l10n.dart';
 import 'package:very_good_coffee_app/repositories/coffee/coffee.dart';
 import 'package:very_good_coffee_app/services/services.dart';
@@ -17,6 +18,9 @@ class MockCoffeeRepository extends Mock implements CoffeeRepository {}
 
 class MockCoffeeHomeBloc extends MockBloc<CoffeeHomeEvent, CoffeeHomeState>
     implements CoffeeHomeBloc {}
+
+class MockFavoritesBloc extends MockBloc<FavoritesEvent, FavoritesState>
+    implements FavoritesBloc {}
 
 void main() {
   const testFilePath = 'https://apitest.dev/GhoCm_jVlXg_coffee.png';
@@ -56,10 +60,12 @@ void main() {
     });
 
     testWidgets('renders CoffeeHomeView', (tester) async {
-      final bloc = MockCoffeeHomeBloc();
+      final homeBbloc = MockCoffeeHomeBloc();
+      final favoritesBloc = MockFavoritesBloc();
+
       final goRouter = MockGoRouter();
 
-      when(() => bloc.state).thenReturn(
+      when(() => homeBbloc.state).thenReturn(
         CoffeeHomeLoaded(
           coffee: Coffee(
             image: testMemoryImage,
@@ -75,8 +81,15 @@ void main() {
             localizationsDelegates: AppLocalizations.localizationsDelegates,
             home: MockGoRouterProvider(
               goRouter: goRouter,
-              child: BlocProvider<CoffeeHomeBloc>(
-                create: (context) => bloc,
+              child: MultiBlocProvider(
+                providers: [
+                  BlocProvider<CoffeeHomeBloc>(
+                    create: (context) => homeBbloc,
+                  ),
+                  BlocProvider<FavoritesBloc>(
+                    create: (context) => favoritesBloc,
+                  ),
+                ],
                 child: const CoffeeHomeView(),
               ),
             ),
@@ -86,7 +99,7 @@ void main() {
 
       // Refresh button should load a random photo
       await tester.tap(find.byIcon(Icons.refresh));
-      verify(() => bloc.add(const LoadRandomCoffeeEvent())).called(1);
+      verify(() => homeBbloc.add(const LoadRandomCoffeeEvent())).called(1);
 
       // List button should navigate to favorites screen
       await tester.tap(find.byIcon(Icons.list));
@@ -95,7 +108,7 @@ void main() {
 
       // Like button should do nothing (for now)
       await tester.tap(find.byIcon(Icons.favorite_border));
-      verifyNever(() => bloc.add(const LikeCoffeeEvent()));
+      verifyNever(() => homeBbloc.add(const LikeCoffeeEvent()));
     });
   });
 }
