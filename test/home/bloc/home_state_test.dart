@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:very_good_coffee_app/coffee_home/coffee_home.dart';
+import 'package:very_good_coffee_app/features/home/home.dart';
 import 'package:very_good_coffee_app/repositories/coffee/coffee.dart';
 
 import '../../helpers/helpers.dart';
@@ -14,34 +14,34 @@ void main() {
     image: testMemoryImage,
   );
 
-  group('CoffeeHomeState', () {
+  group('HomeState', () {
     test('supports value equality', () {
       expect(
-        const CoffeeHomeInitial(),
+        const HomeInitial(),
         equals(
-          const CoffeeHomeInitial(),
+          const HomeInitial(),
         ),
       );
       expect(
-        const CoffeeHomeLoading(),
+        const HomeLoading(),
         equals(
-          const CoffeeHomeLoading(),
+          const HomeLoading(),
         ),
       );
       expect(
-        CoffeeHomeLoaded(
+        HomeLoaded(
           coffee: coffee,
         ),
         equals(
-          CoffeeHomeLoaded(
+          HomeLoaded(
             coffee: coffee,
           ),
         ),
       );
       expect(
-        const CoffeeHomeError('error'),
+        const HomeError('error'),
         equals(
-          const CoffeeHomeError('error'),
+          const HomeError('error'),
         ),
       );
     });

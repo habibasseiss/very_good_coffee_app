@@ -85,7 +85,7 @@ void main() {
 
       final coffeeResponseJson = coffeeResponse.toJson();
 
-      expect(coffeeResponse.file, coffeeResponseJson['file']);
+      expect(coffeeResponse.file, equals(coffeeResponseJson['file']));
 
       // Test copyWith with null file, should retain original file
       expect(

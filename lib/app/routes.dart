@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:very_good_coffee_app/coffee_home/coffee_home.dart';
-import 'package:very_good_coffee_app/favorites/favorite_details_screen.dart';
-import 'package:very_good_coffee_app/favorites/favorites.dart';
+import 'package:very_good_coffee_app/features/favorites/favorite_details_screen.dart';
+import 'package:very_good_coffee_app/features/favorites/favorites.dart';
+import 'package:very_good_coffee_app/features/home/home.dart';
 
 part 'routes.g.dart';
 
@@ -23,7 +23,7 @@ part 'routes.g.dart';
 class HomeRoute extends GoRouteData {
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return const CoffeeHomeScreen();
+    return const HomeScreen();
   }
 }
 

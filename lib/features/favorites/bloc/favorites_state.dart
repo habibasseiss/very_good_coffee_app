@@ -16,6 +16,9 @@ class FavoritesState extends Equatable {
   /// Indicates if favorites are loading
   final bool isLoading;
 
+  /// Returns true if a coffee is set as favorite
+  bool isFavorite(Coffee coffee) => coffees.contains(coffee);
+
   @override
   List<Object> get props => [
         coffees,

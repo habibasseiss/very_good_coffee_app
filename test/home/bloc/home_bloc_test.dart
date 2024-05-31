@@ -3,7 +3,7 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:very_good_coffee_app/coffee_home/coffee_home.dart';
+import 'package:very_good_coffee_app/features/home/home.dart';
 import 'package:very_good_coffee_app/repositories/coffee/coffee.dart';
 import 'package:very_good_coffee_app/services/services.dart';
 
@@ -34,11 +34,11 @@ void main() {
     );
   });
 
-  group('CoffeeHomeBloc', () {
+  group('HomeBloc', () {
     group('constructor', () {
       test('can be instantiated', () {
         expect(
-          CoffeeHomeBloc(
+          HomeBloc(
             coffeeRepository: mockCoffeeRepository,
           ),
           isNotNull,
@@ -47,21 +47,21 @@ void main() {
     });
 
     test('initial state has default value for customProperty', () {
-      final coffeeHomeBloc = CoffeeHomeBloc(
+      final homeBloc = HomeBloc(
         coffeeRepository: mockCoffeeRepository,
       );
-      expect(coffeeHomeBloc.state, equals(CoffeeHomeInitial()));
+      expect(homeBloc.state, equals(HomeInitial()));
     });
 
-    blocTest<CoffeeHomeBloc, CoffeeHomeState>(
-      'emits [CoffeeHomeLoading, CoffeeHomeLoaded] when LoadRandomPhotoEvent is successful',
-      build: () => CoffeeHomeBloc(
+    blocTest<HomeBloc, HomeState>(
+      'emits [HomeLoading, HomeLoaded] when LoadRandomPhotoEvent is successful',
+      build: () => HomeBloc(
         coffeeRepository: mockCoffeeRepository,
       ),
       act: (bloc) => bloc.add(const LoadRandomCoffeeEvent()),
-      expect: () => <CoffeeHomeState>[
-        const CoffeeHomeLoading(),
-        CoffeeHomeLoaded(
+      expect: () => <HomeState>[
+        const HomeLoading(),
+        HomeLoaded(
           coffee: Coffee(
             image: testMemoryImage,
             url: testFilePath,
@@ -70,20 +70,20 @@ void main() {
       ],
     );
 
-    blocTest<CoffeeHomeBloc, CoffeeHomeState>(
-      'emits [CoffeeHomeLoading, CoffeeHomeError] when LoadRandomPhotoEvent is unsuccessful',
+    blocTest<HomeBloc, HomeState>(
+      'emits [HomeLoading, HomeError] when LoadRandomPhotoEvent is unsuccessful',
       setUp: () {
         when(mockCoffeeRepository.getRandomCoffee).thenThrow(
           GetRandomCoffeeFailure('Failed to fetch a random coffee'),
         );
       },
-      build: () => CoffeeHomeBloc(
+      build: () => HomeBloc(
         coffeeRepository: mockCoffeeRepository,
       ),
       act: (bloc) => bloc.add(const LoadRandomCoffeeEvent()),
-      expect: () => <CoffeeHomeState>[
-        const CoffeeHomeLoading(),
-        const CoffeeHomeError('Failed to fetch a random coffee'),
+      expect: () => <HomeState>[
+        const HomeLoading(),
+        const HomeError('Failed to fetch a random coffee'),
       ],
     );
   });

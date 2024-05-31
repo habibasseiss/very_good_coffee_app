@@ -43,6 +43,19 @@ class FavoritesBloc extends Bloc<FavoritesEvent, FavoritesState> {
     AddFavoriteCoffeeEvent event,
     Emitter<FavoritesState> emit,
   ) async {
+    emit(
+      state.copyWith(
+        isLoading: true,
+      ),
+    );
+
     await _favoritesRepository.addFavorite(coffee: event.coffee);
+
+    emit(
+      state.copyWith(
+        coffees: [...state.coffees, event.coffee],
+        isLoading: false,
+      ),
+    );
   }
 }

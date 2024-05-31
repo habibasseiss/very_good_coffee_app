@@ -4,14 +4,14 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:very_good_coffee_app/repositories/coffee/coffee.dart';
 
-part 'coffee_home_event.dart';
-part 'coffee_home_state.dart';
+part 'home_event.dart';
+part 'home_state.dart';
 
-class CoffeeHomeBloc extends Bloc<CoffeeHomeEvent, CoffeeHomeState> {
-  CoffeeHomeBloc({
+class HomeBloc extends Bloc<HomeEvent, HomeState> {
+  HomeBloc({
     required CoffeeRepository coffeeRepository,
   })  : _coffeeRepository = coffeeRepository,
-        super(const CoffeeHomeInitial()) {
+        super(const HomeInitial()) {
     on<LoadRandomCoffeeEvent>(_onLoadRandomPhotoEvent);
   }
 
@@ -19,20 +19,20 @@ class CoffeeHomeBloc extends Bloc<CoffeeHomeEvent, CoffeeHomeState> {
 
   FutureOr<void> _onLoadRandomPhotoEvent(
     LoadRandomCoffeeEvent event,
-    Emitter<CoffeeHomeState> emit,
+    Emitter<HomeState> emit,
   ) async {
-    emit(const CoffeeHomeLoading());
+    emit(const HomeLoading());
 
     try {
       final coffee = await _coffeeRepository.getRandomCoffee();
 
       emit(
-        CoffeeHomeLoaded(
+        HomeLoaded(
           coffee: coffee,
         ),
       );
     } on GetRandomCoffeeFailure catch (e) {
-      emit(CoffeeHomeError(e.message));
+      emit(HomeError(e.message));
     }
   }
 }

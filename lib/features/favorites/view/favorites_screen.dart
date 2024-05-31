@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:very_good_coffee_app/app/routes.dart';
-import 'package:very_good_coffee_app/favorites/bloc/favorites_bloc.dart';
+import 'package:very_good_coffee_app/features/favorites/bloc/favorites_bloc.dart';
 import 'package:very_good_coffee_app/l10n/l10n.dart';
 
 /// {@template favorites_screen}
@@ -42,6 +42,15 @@ class FavoritesView extends StatelessWidget {
           if (state.isLoading) {
             return const Center(
               child: CircularProgressIndicator(),
+            );
+          }
+
+          if (state.coffees.isEmpty) {
+            return Center(
+              child: Text(
+                l10n.youHaveNoFavoritesYet,
+                textAlign: TextAlign.center,
+              ),
             );
           }
 

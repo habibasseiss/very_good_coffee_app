@@ -7,5 +7,9 @@
     "favorites": "Favorites",
     "@favorites": {
         "description": "Label for the favorites label"
+    },
+    "youHaveNoFavoritesYet": "You have no favorites yet\nGo add some!",
+    "@youHaveNoFavoritesYet": {
+        "description": "Message displayed when the user has no favorites"
     }
 }
