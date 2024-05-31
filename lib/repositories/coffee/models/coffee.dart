@@ -1,50 +1,42 @@
 import 'dart:typed_data';
 
 import 'package:equatable/equatable.dart';
-import 'package:json_annotation/json_annotation.dart';
 
-part 'coffee.g.dart';
-
-@JsonSerializable(
-  fieldRename: FieldRename.snake,
-)
 class Coffee extends Equatable {
   const Coffee({
-    required this.file,
-    this.image,
+    required this.image,
+    this.id,
+    this.url,
   });
 
-  /// Connect the generated [_$CoffeeFromJson] function to the `fromJson`
-  /// factory.
-  factory Coffee.fromJson(Map<String, dynamic> json) => _$CoffeeFromJson(json);
+  final int? id;
 
-  /// The file path of the coffee image.
-  final String file;
+  /// The url of the Coffee image.
+  final String? url;
 
-  /// The image data of the coffee.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  /// The image data of the Coffee.
   final Uint8List? image;
-
-  /// Connect the generated [_$CoffeeToJson] function to the `toJson` method.
-  Map<String, dynamic> toJson() => _$CoffeeToJson(this);
 
   @override
   List<Object?> get props => [
-        file,
+        id,
+        url,
         image,
       ];
 
   @override
   String toString() {
-    return 'Coffee($file)';
+    return 'Coffee($id)';
   }
 
   Coffee copyWith({
-    String? file,
+    int? id,
+    String? url,
     Uint8List? image,
   }) {
     return Coffee(
-      file: file ?? this.file,
+      id: id ?? this.id,
+      url: url ?? this.url,
       image: image ?? this.image,
     );
   }

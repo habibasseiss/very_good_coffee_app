@@ -1,15 +1,17 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'coffee.dart';
+part of 'coffee_response.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-Coffee _$CoffeeFromJson(Map<String, dynamic> json) => Coffee(
+CoffeeResponse _$CoffeeResponseFromJson(Map<String, dynamic> json) =>
+    CoffeeResponse(
       file: json['file'] as String,
     );
 
-Map<String, dynamic> _$CoffeeToJson(Coffee instance) => <String, dynamic>{
+Map<String, dynamic> _$CoffeeResponseToJson(CoffeeResponse instance) =>
+    <String, dynamic>{
       'file': instance.file,
     };

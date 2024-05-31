@@ -4,11 +4,14 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:very_good_coffee_app/coffee_home/coffee_home.dart';
 import 'package:very_good_coffee_app/repositories/coffee/coffee.dart';
 
+import '../../helpers/helpers.dart';
+
 void main() {
   const testFilePath = 'https://apitest.dev/GhoCm_jVlXg_coffee.png';
 
   final coffee = Coffee(
-    file: testFilePath,
+    url: testFilePath,
+    image: testMemoryImage,
   );
 
   group('CoffeeHomeState', () {

@@ -1,5 +1,3 @@
-import 'dart:typed_data';
-
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:very_good_coffee_app/repositories/coffee/coffee.dart';
@@ -31,7 +29,7 @@ void main() {
       expect(
         await apiCoffeeRepository.getRandomCoffee(),
         isA<Coffee>().having(
-          (c) => c.file,
+          (c) => c.url,
           'file url',
           testFilePath,
         ),
@@ -53,46 +51,56 @@ void main() {
     });
   });
 
-  group('Coffee Model', () {
+  group('Coffee and CoffeeResponse Model', () {
     test('Test Coffee Model', () async {
       final coffee = Coffee(
-        file: testFilePath,
         image: testMemoryImage,
+        url: testFilePath,
       );
 
-      final coffeeJson = coffee.toJson();
+      // Test copyWith with null url, should retain original url
+      expect(
+        coffee.copyWith().url,
+        equals(coffee.url),
+      );
 
-      expect(coffee.file, coffeeJson['file']);
-
+      // Test copyWith with a new url and null image
       expect(
         coffee.copyWith(
-          image: Uint8List(0),
+          url: 'new/file/path',
         ),
-        isNot(coffee),
+        equals(
+          Coffee(
+            image: testMemoryImage,
+            url: 'new/file/path',
+          ),
+        ),
+      );
+    });
+
+    test('Test CoffeeResponse Model', () async {
+      const coffeeResponse = CoffeeResponse(
+        file: testFilePath,
       );
 
-      expect(
-        coffee.copyWith(
-          image: testMemoryImage,
-        ),
-        equals(coffee),
-      );
+      final coffeeResponseJson = coffeeResponse.toJson();
 
-      // Test copyWith with null image, should retain original image
+      expect(coffeeResponse.file, coffeeResponseJson['file']);
+
+      // Test copyWith with null file, should retain original file
       expect(
-        coffee.copyWith().image,
-        equals(coffee.image),
+        coffeeResponse.copyWith().file,
+        equals(coffeeResponse.file),
       );
 
       // Test copyWith with a new file and null image
       expect(
-        coffee.copyWith(
+        coffeeResponse.copyWith(
           file: 'new/file/path',
         ),
         equals(
-          Coffee(
+          const CoffeeResponse(
             file: 'new/file/path',
-            image: testMemoryImage,
           ),
         ),
       );

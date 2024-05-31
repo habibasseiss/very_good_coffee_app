@@ -20,16 +20,17 @@ class ApiCoffeeRepository extends CoffeeRepository {
       // Fetch a random coffee from the API.
       final response = await _apiService.get('/random.json');
 
-      // Create a [Coffee] object from the API response.
-      final coffee = Coffee.fromJson(response);
+      // Create a [CoffeeResponse] object from the API response.
+      final coffeeResponse = CoffeeResponse.fromJson(response);
 
       // Manually fetch the image from the obtained url and store it in memory.
       final imageUrl = response['file'] as String;
       final imageResponse = await http.get(Uri.parse(imageUrl));
       final image = imageResponse.bodyBytes;
 
-      return coffee.copyWith(
+      return Coffee(
         image: image,
+        url: coffeeResponse.file,
       );
     } on Exception catch (e) {
       throw GetRandomCoffeeFailure('Failed to fetch a random coffee: $e');

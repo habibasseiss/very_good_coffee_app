@@ -1,5 +1,3 @@
-import 'dart:typed_data';
-
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -38,8 +36,8 @@ void main() {
 
       when(mockCoffeeRepository.getRandomCoffee).thenAnswer(
         (_) async => Coffee(
-          file: testFilePath,
-          image: Uint8List(0),
+          image: testMemoryImage,
+          url: testFilePath,
         ),
       );
     });
@@ -64,8 +62,8 @@ void main() {
       when(() => bloc.state).thenReturn(
         CoffeeHomeLoaded(
           coffee: Coffee(
-            file: testFilePath,
             image: testMemoryImage,
+            url: testFilePath,
           ),
         ),
       );

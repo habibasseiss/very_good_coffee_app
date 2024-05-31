@@ -28,8 +28,8 @@ void main() {
 
     when(mockCoffeeRepository.getRandomCoffee).thenAnswer(
       (_) async => Coffee(
-        file: testFilePath,
         image: testMemoryImage,
+        url: testFilePath,
       ),
     );
   });
@@ -63,8 +63,8 @@ void main() {
         const CoffeeHomeLoading(),
         CoffeeHomeLoaded(
           coffee: Coffee(
-            file: testFilePath,
             image: testMemoryImage,
+            url: testFilePath,
           ),
         ),
       ],
