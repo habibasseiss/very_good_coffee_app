@@ -7,14 +7,14 @@ import 'package:very_good_coffee_app/features/home/home.dart';
 import 'package:very_good_coffee_app/repositories/coffee/coffee.dart';
 import 'package:very_good_coffee_app/services/services.dart';
 
-import '../../helpers/helpers.dart';
+import '../../../helpers/helpers.dart';
 
 class MockApiService extends Mock implements ApiService {}
 
 class MockCoffeeRepository extends Mock implements CoffeeRepository {}
 
 void main() {
-  const testFilePath = 'https://apitest.dev/GhoCm_jVlXg_coffee.png';
+  final testFilePath = testCoffee1.url;
 
   final mockApiService = MockApiService();
   final mockCoffeeRepository = MockCoffeeRepository();

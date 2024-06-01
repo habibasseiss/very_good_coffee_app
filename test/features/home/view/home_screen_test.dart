@@ -10,7 +10,7 @@ import 'package:very_good_coffee_app/l10n/l10n.dart';
 import 'package:very_good_coffee_app/repositories/coffee/coffee.dart';
 import 'package:very_good_coffee_app/services/services.dart';
 
-import '../../helpers/helpers.dart';
+import '../../../helpers/helpers.dart';
 
 class MockApiService extends Mock implements ApiService {}
 
@@ -22,7 +22,7 @@ class MockFavoritesBloc extends MockBloc<FavoritesEvent, FavoritesState>
     implements FavoritesBloc {}
 
 void main() {
-  const testFilePath = 'https://apitest.dev/GhoCm_jVlXg_coffee.png';
+  final testFilePath = testCoffee1.url;
 
   TestWidgetsFlutterBinding.ensureInitialized();
 
@@ -32,11 +32,6 @@ void main() {
   final homeBloc = MockHomeBloc();
   final favoritesBloc = MockFavoritesBloc();
   final goRouter = MockGoRouter();
-
-  final coffee = Coffee(
-    image: testMemoryImage,
-    url: testFilePath,
-  );
 
   final homeView = RepositoryProvider<CoffeeRepository>(
     create: (context) => MockCoffeeRepository(),
@@ -73,7 +68,7 @@ void main() {
         ),
       );
       when(() => homeBloc.state).thenReturn(
-        HomeLoaded(coffee: coffee),
+        HomeLoaded(coffee: testCoffee1),
       );
       when(() => favoritesBloc.state).thenReturn(
         const FavoritesState(),
@@ -102,7 +97,7 @@ void main() {
       await tester.tap(find.byIcon(Icons.favorite_border));
       verify(
         () => favoritesBloc.add(
-          AddFavoriteCoffeeEvent(coffee: coffee),
+          AddFavoriteCoffeeEvent(coffee: testCoffee1),
         ),
       ).called(1);
     });

@@ -30,9 +30,4 @@ class ApiFavoritesRepository extends FavoritesRepository {
   Future<List<Coffee>> getFavorites() {
     return databaseService.coffeeDao.selectAllCoffees();
   }
-
-  @override
-  Future<void> removeFavorite({required Coffee coffee}) {
-    return databaseService.coffeeDao.deleteCoffee(coffee);
-  }
 }

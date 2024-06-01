@@ -42,25 +42,36 @@ void main() {
   });
 
   group('ApiService requests', () {
-    final productsUri = apiService.makeUri('/products');
-    registerFallbackValue(productsUri);
+    final fakeUri = apiService.makeUri('/fake');
+    final getRandomUri = apiService.makeUri('/random.json');
+    registerFallbackValue(fakeUri);
+    registerFallbackValue(getRandomUri);
 
-    final mockResponse = {
+    final fakeMockResponse = {
       'data': [
         {'id': 1, 'name': 'Coffee Beans'},
         {'id': 2, 'name': 'Espresso Machine'},
       ],
     };
+    final randomMockResponse = {
+      'file': 'https://example.com/image.jpg',
+    };
 
     setUp(() {
-      when(() => mockHttpClient.get(productsUri)).thenAnswer(
-        (_) async => http.Response(json.encode(mockResponse), 200),
+      when(() => mockHttpClient.get(fakeUri)).thenAnswer(
+        (_) async => http.Response(json.encode(fakeMockResponse), 200),
+      );
+      when(() => mockHttpClient.get(getRandomUri)).thenAnswer(
+        (_) async => http.Response(json.encode(randomMockResponse), 200),
       );
     });
 
     test('get method returns data from API', () async {
-      final response = await apiService.get('/products');
-      expect(response, mockResponse);
+      final response = await apiService.get('/fake');
+      expect(response, fakeMockResponse);
+
+      final response2 = await apiService.getRandom();
+      expect(response2, randomMockResponse);
     });
   });
 }

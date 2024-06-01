@@ -1,10 +1,12 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:equatable/equatable.dart';
 import 'package:very_good_coffee_app/repositories/coffee/models/models.dart';
 import 'package:very_good_coffee_app/repositories/favorites/favorites.dart';
 
+part 'favorites_bloc.g.dart';
 part 'favorites_event.dart';
 part 'favorites_state.dart';
 
@@ -56,13 +58,13 @@ class FavoritesBloc extends Bloc<FavoritesEvent, FavoritesState> {
 
     emit(
       state.copyWith(
-        isLoading: true,
+        coffees: [
+          ...state.coffees,
+          if (!state.isFavorite(event.coffee))
+            event.coffee.copyWith(id: coffeeId),
+        ],
+        isLoading: false,
       ),
     );
-
-    if (coffeeId != null) {
-      /// If the coffee was added successfully, reload the favorites.
-      add(const LoadFavoritesEvent());
-    }
   }
 }

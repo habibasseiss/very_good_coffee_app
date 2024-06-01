@@ -3,6 +3,7 @@ part of 'favorites_bloc.dart';
 /// {@template favorites_state}
 /// FavoritesState description
 /// {@endtemplate}
+@CopyWith()
 class FavoritesState extends Equatable {
   /// {@macro favorites_state}
   const FavoritesState({
@@ -28,15 +29,4 @@ class FavoritesState extends Equatable {
         coffees,
         isLoading,
       ];
-
-  /// Creates a copy of the current FavoritesState with property changes
-  FavoritesState copyWith({
-    List<Coffee>? coffees,
-    bool? isLoading,
-  }) {
-    return FavoritesState(
-      coffees: coffees ?? this.coffees,
-      isLoading: isLoading ?? this.isLoading,
-    );
-  }
 }

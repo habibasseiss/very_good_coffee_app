@@ -1,8 +1,12 @@
 import 'dart:typed_data';
 
+import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:equatable/equatable.dart';
 import 'package:floor/floor.dart';
 
+part 'coffee.g.dart';
+
+@CopyWith()
 @Entity(tableName: 'coffees')
 class Coffee extends Equatable {
   const Coffee({
@@ -30,17 +34,5 @@ class Coffee extends Equatable {
   @override
   String toString() {
     return 'Coffee($id)';
-  }
-
-  Coffee copyWith({
-    int? id,
-    String? url,
-    Uint8List? image,
-  }) {
-    return Coffee(
-      id: id ?? this.id,
-      url: url ?? this.url,
-      image: image ?? this.image,
-    );
   }
 }

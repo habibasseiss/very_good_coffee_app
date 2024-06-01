@@ -1,8 +1,10 @@
+import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'coffee_response.g.dart';
 
+@CopyWith()
 @JsonSerializable(
   fieldRename: FieldRename.snake,
 )
@@ -24,15 +26,7 @@ class CoffeeResponse extends Equatable {
   Map<String, dynamic> toJson() => _$CoffeeResponseToJson(this);
 
   @override
-  List<Object?> get props => [
+  List<Object> get props => [
         file,
       ];
-
-  CoffeeResponse copyWith({
-    String? file,
-  }) {
-    return CoffeeResponse(
-      file: file ?? this.file,
-    );
-  }
 }

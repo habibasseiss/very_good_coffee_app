@@ -11,7 +11,4 @@ abstract class CoffeeDao {
 
   @insert
   Future<int> insertCoffee(Coffee coffee);
-
-  @delete
-  Future<void> deleteCoffee(Coffee coffee);
 }

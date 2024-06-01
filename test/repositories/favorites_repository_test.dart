@@ -12,15 +12,6 @@ class MockDatabaseService extends Mock implements DatabaseService {}
 class MockCoffeeDao extends Mock implements CoffeeDao {}
 
 void main() {
-  final coffee1 = Coffee(
-    image: testMemoryImage,
-    url: 'https://apitest.dev/GhoCm_jVlXg_coffee.png',
-  );
-  final coffee2 = Coffee(
-    image: testMemoryImage,
-    url: 'https://apitest.dev/sx9j_28sl1m.png',
-  );
-
   TestWidgetsFlutterBinding.ensureInitialized();
 
   late DatabaseService database;
@@ -35,17 +26,64 @@ void main() {
     );
   });
 
-  group('Testing Favorites Repository', () {
+  group('Testing add from favorites repository', () {
+    setUp(() {
+      when(() => database.coffeeDao).thenAnswer(
+        (_) => coffeeDao,
+      );
+      when(() => coffeeDao.selectCoffeeByUrl(testCoffee1.url)).thenAnswer(
+        (_) async => testCoffee1,
+      );
+      when(() => coffeeDao.selectCoffeeByUrl(testCoffee2.url)).thenAnswer(
+        (_) async => null,
+      );
+      when(() => coffeeDao.insertCoffee(testCoffee1)).thenAnswer(
+        (_) async => testCoffee1.id!,
+      );
+      when(() => coffeeDao.insertCoffee(testCoffee2)).thenAnswer(
+        (_) async => testCoffee2.id!,
+      );
+    });
+
+    test('Test add favorite cofee', () async {
+      expect(
+        await favoritesRepository.addFavorite(coffee: testCoffee1),
+        isA<int>().having(
+          (coffeeId) => coffeeId,
+          'match coffee id',
+          testCoffee1.id,
+        ),
+      );
+      expect(
+        await favoritesRepository.addFavorite(coffee: testCoffee2),
+        isA<int>().having(
+          (coffeeId) => coffeeId,
+          'match coffee id',
+          testCoffee2.id,
+        ),
+      );
+    });
+  });
+
+  group('Testing read from favorites repository', () {
     setUp(() {
       when(() => database.coffeeDao).thenAnswer(
         (_) => coffeeDao,
       );
       when(coffeeDao.selectAllCoffees).thenAnswer(
-        (_) async => [coffee1, coffee2],
+        (_) async => [testCoffee1, testCoffee2],
+      );
+      when(() => coffeeDao.selectCoffeeByUrl(testCoffee1.url)).thenAnswer(
+        (_) async => testCoffee1,
+      );
+      when(
+        () => coffeeDao.selectCoffeeByUrl('http://non-existing-favorite.dev'),
+      ).thenAnswer(
+        (_) async => null,
       );
     });
 
-    test('Test get all cofees', () async {
+    test('Test get all favorite cofees', () async {
       expect(
         await favoritesRepository.getFavorites(),
         isA<List<Coffee>>().having(
@@ -56,6 +94,24 @@ void main() {
       );
     });
 
-    // TODO(habib): Add other repository tests
+    test('Test get specific favorite cofee', () async {
+      expect(
+        await favoritesRepository.getFavorite(url: testCoffee1.url),
+        isA<Coffee>().having(
+          (coffees) => coffees.url,
+          'url',
+          testCoffee1.url,
+        ),
+      );
+    });
+
+    test('Test get non existing favorite cofee', () async {
+      expect(
+        await favoritesRepository.getFavorite(
+          url: 'http://non-existing-favorite.dev',
+        ),
+        isNull,
+      );
+    });
   });
 }

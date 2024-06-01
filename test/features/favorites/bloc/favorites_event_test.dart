@@ -2,16 +2,10 @@
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:very_good_coffee_app/features/favorites/bloc/favorites_bloc.dart';
-import 'package:very_good_coffee_app/repositories/coffee/models/models.dart';
 
-import '../../helpers/helpers.dart';
+import '../../../helpers/helpers.dart';
 
 void main() {
-  final coffee = Coffee(
-    image: testMemoryImage,
-    url: 'https://example.com/image.jpg',
-  );
-
   group('FavoritesEvent', () {
     group('LoadFavoritesEvent', () {
       test('supports value equality', () {
@@ -20,8 +14,8 @@ void main() {
           equals(const LoadFavoritesEvent()),
         );
         expect(
-          AddFavoriteCoffeeEvent(coffee: coffee),
-          equals(AddFavoriteCoffeeEvent(coffee: coffee)),
+          AddFavoriteCoffeeEvent(coffee: testCoffee1),
+          equals(AddFavoriteCoffeeEvent(coffee: testCoffee1)),
         );
       });
     });

@@ -1,3 +1,6 @@
+import 'dart:async';
+import 'dart:io';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:very_good_coffee_app/repositories/coffee/coffee.dart';
@@ -8,7 +11,7 @@ import '../helpers/helpers.dart';
 class MockCoffeeApiService extends Mock implements CoffeeApiService {}
 
 void main() {
-  const testFilePath = 'https://apitest.dev/GhoCm_jVlXg_coffee.png';
+  final testFilePath = testCoffee1.url;
 
   TestWidgetsFlutterBinding.ensureInitialized();
 
@@ -37,7 +40,67 @@ void main() {
     });
   });
 
-  group('Testing Coffee Repository Exception', () {
+  group('Testing Coffee Repository SocketException Exception', () {
+    setUp(() {
+      when(mockApiService.getRandom).thenThrow(
+        const SocketException('Failed to fetch a random coffee'),
+      );
+    });
+    test('Test get random coffee should throw exception', () async {
+      expect(
+        () async => apiCoffeeRepository.getRandomCoffee(),
+        throwsA(
+          isA<GetRandomCoffeeFailure>().having(
+            (e) => e.reason,
+            'reason',
+            GetRandomCoffeeFailureReason.networkError,
+          ),
+        ),
+      );
+    });
+  });
+
+  group('Testing Coffee Repository SocketException Exception', () {
+    setUp(() {
+      when(mockApiService.getRandom).thenThrow(
+        const HttpException('Failed to fetch a random coffee'),
+      );
+    });
+    test('Test get random coffee should throw exception', () async {
+      expect(
+        () async => apiCoffeeRepository.getRandomCoffee(),
+        throwsA(
+          isA<GetRandomCoffeeFailure>().having(
+            (e) => e.reason,
+            'reason',
+            GetRandomCoffeeFailureReason.networkError,
+          ),
+        ),
+      );
+    });
+  });
+
+  group('Testing Coffee Repository SocketException Exception', () {
+    setUp(() {
+      when(mockApiService.getRandom).thenThrow(
+        TimeoutException('Failed to fetch a random coffee'),
+      );
+    });
+    test('Test get random coffee should throw exception', () async {
+      expect(
+        () async => apiCoffeeRepository.getRandomCoffee(),
+        throwsA(
+          isA<GetRandomCoffeeFailure>().having(
+            (e) => e.reason,
+            'reason',
+            GetRandomCoffeeFailureReason.networkError,
+          ),
+        ),
+      );
+    });
+  });
+
+  group('Testing Coffee Repository Generic Exception', () {
     setUp(() {
       when(mockApiService.getRandom).thenThrow(
         Exception('Failed to fetch a random coffee'),
@@ -52,58 +115,22 @@ void main() {
   });
 
   group('Coffee and CoffeeResponse Model', () {
-    test('Test Coffee Model', () async {
-      final coffee = Coffee(
-        image: testMemoryImage,
-        url: testFilePath,
-      );
-
-      // Test copyWith with null url, should retain original url
-      expect(
-        coffee.copyWith().url,
-        equals(coffee.url),
-      );
-
-      // Test copyWith with a new url and null image
-      expect(
-        coffee.copyWith(
-          url: 'new/file/path',
-        ),
-        equals(
-          Coffee(
-            image: testMemoryImage,
-            url: 'new/file/path',
-          ),
-        ),
-      );
-    });
-
     test('Test CoffeeResponse Model', () async {
-      const coffeeResponse = CoffeeResponse(
+      final coffeeResponse = CoffeeResponse(
         file: testFilePath,
       );
-
       final coffeeResponseJson = coffeeResponse.toJson();
-
       expect(coffeeResponse.file, equals(coffeeResponseJson['file']));
 
-      // Test copyWith with null file, should retain original file
-      expect(
-        coffeeResponse.copyWith().file,
-        equals(coffeeResponse.file),
-      );
+      // two instances with the same properties are equal
+      const coffeeResponse1 = CoffeeResponse(file: 'path/to/file');
+      const coffeeResponse2 = CoffeeResponse(file: 'path/to/file');
+      expect(coffeeResponse1, coffeeResponse2);
 
-      // Test copyWith with a new file and null image
-      expect(
-        coffeeResponse.copyWith(
-          file: 'new/file/path',
-        ),
-        equals(
-          const CoffeeResponse(
-            file: 'new/file/path',
-          ),
-        ),
-      );
+      // two instances with different properties are not equal
+      const coffeeResponse3 = CoffeeResponse(file: 'path/to/file');
+      const coffeeResponse4 = CoffeeResponse(file: 'path/to/other/file');
+      expect(coffeeResponse3, isNot(equals(coffeeResponse4)));
     });
   });
 }

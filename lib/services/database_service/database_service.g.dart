@@ -122,15 +122,6 @@ class _$CoffeeDao extends CoffeeDao {
                   'id': item.id,
                   'url': item.url,
                   'image': _imageTypeConverter.encode(item.image)
-                }),
-        _coffeeDeletionAdapter = DeletionAdapter(
-            database,
-            'coffees',
-            ['id'],
-            (Coffee item) => <String, Object?>{
-                  'id': item.id,
-                  'url': item.url,
-                  'image': _imageTypeConverter.encode(item.image)
                 });
 
   final sqflite.DatabaseExecutor database;
@@ -140,8 +131,6 @@ class _$CoffeeDao extends CoffeeDao {
   final QueryAdapter _queryAdapter;
 
   final InsertionAdapter<Coffee> _coffeeInsertionAdapter;
-
-  final DeletionAdapter<Coffee> _coffeeDeletionAdapter;
 
   @override
   Future<List<Coffee>> selectAllCoffees() async {
@@ -166,11 +155,6 @@ class _$CoffeeDao extends CoffeeDao {
   Future<int> insertCoffee(Coffee coffee) {
     return _coffeeInsertionAdapter.insertAndReturnId(
         coffee, OnConflictStrategy.abort);
-  }
-
-  @override
-  Future<void> deleteCoffee(Coffee coffee) async {
-    await _coffeeDeletionAdapter.delete(coffee);
   }
 }
 

@@ -10,7 +10,4 @@ abstract class FavoritesRepository {
   /// Add a coffee to favorites. Returns the id of the added coffee. If the
   /// coffee is already favorited, returns the id of the existing coffee.
   Future<int?> addFavorite({required Coffee coffee});
-
-  /// Remove a coffee from favorites.
-  Future<void> removeFavorite({required Coffee coffee});
 }
