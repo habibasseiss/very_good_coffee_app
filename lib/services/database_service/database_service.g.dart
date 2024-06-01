@@ -114,7 +114,7 @@ class _$CoffeeDao extends CoffeeDao {
   _$CoffeeDao(
     this.database,
     this.changeListener,
-  )   : _queryAdapter = QueryAdapter(database, changeListener),
+  )   : _queryAdapter = QueryAdapter(database),
         _coffeeInsertionAdapter = InsertionAdapter(
             database,
             'coffees',
@@ -122,8 +122,7 @@ class _$CoffeeDao extends CoffeeDao {
                   'id': item.id,
                   'url': item.url,
                   'image': _imageTypeConverter.encode(item.image)
-                },
-            changeListener),
+                }),
         _coffeeDeletionAdapter = DeletionAdapter(
             database,
             'coffees',
@@ -132,8 +131,7 @@ class _$CoffeeDao extends CoffeeDao {
                   'id': item.id,
                   'url': item.url,
                   'image': _imageTypeConverter.encode(item.image)
-                },
-            changeListener);
+                });
 
   final sqflite.DatabaseExecutor database;
 
@@ -155,15 +153,13 @@ class _$CoffeeDao extends CoffeeDao {
   }
 
   @override
-  Stream<Coffee?> selectCoffeeById(int id) {
-    return _queryAdapter.queryStream('SELECT * FROM coffees WHERE id = ?1',
+  Future<Coffee?> selectCoffeeByUrl(String url) async {
+    return _queryAdapter.query('SELECT * FROM coffees WHERE url = ?1',
         mapper: (Map<String, Object?> row) => Coffee(
             image: _imageTypeConverter.decode(row['image'] as String),
             url: row['url'] as String,
             id: row['id'] as int?),
-        arguments: [id],
-        queryableName: 'coffees',
-        isView: false);
+        arguments: [url]);
   }
 
   @override

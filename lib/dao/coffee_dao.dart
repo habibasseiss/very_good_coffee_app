@@ -6,8 +6,8 @@ abstract class CoffeeDao {
   @Query('SELECT * FROM coffees')
   Future<List<Coffee>> selectAllCoffees();
 
-  @Query('SELECT * FROM coffees WHERE id = :id')
-  Stream<Coffee?> selectCoffeeById(int id);
+  @Query('SELECT * FROM coffees WHERE url = :url')
+  Future<Coffee?> selectCoffeeByUrl(String url);
 
   @insert
   Future<int> insertCoffee(Coffee coffee);

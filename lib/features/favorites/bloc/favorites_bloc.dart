@@ -29,6 +29,7 @@ class FavoritesBloc extends Bloc<FavoritesEvent, FavoritesState> {
       ),
     );
 
+    /// Get the favorited coffees using the favorites repository.
     final coffees = await _favoritesRepository.getFavorites();
 
     emit(
@@ -49,17 +50,19 @@ class FavoritesBloc extends Bloc<FavoritesEvent, FavoritesState> {
       ),
     );
 
+    /// Add the coffee using the favorites repository.
     final coffeeId =
         await _favoritesRepository.addFavorite(coffee: event.coffee);
 
     emit(
       state.copyWith(
-        coffees: [
-          ...state.coffees,
-          event.coffee.copyWith(id: coffeeId),
-        ],
-        isLoading: false,
+        isLoading: true,
       ),
     );
+
+    if (coffeeId != null) {
+      /// If the coffee was added successfully, reload the favorites.
+      add(const LoadFavoritesEvent());
+    }
   }
 }
