@@ -32,7 +32,15 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         ),
       );
     } on GetRandomCoffeeFailure catch (e) {
-      emit(HomeError(e.message));
+      emit(
+        switch (e.reason) {
+          GetRandomCoffeeFailureReason.networkError => const HomeError(
+              'Network error',
+              reason: HomeErrorReason.networkError,
+            ),
+          _ => HomeError(e.message),
+        },
+      );
     }
   }
 }

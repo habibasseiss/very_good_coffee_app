@@ -48,10 +48,22 @@ class HomeLoaded extends HomeState {
 /// {@endtemplate}
 class HomeError extends HomeState {
   /// {@macro home_error}
-  const HomeError(this.errorMessage);
+  const HomeError(
+    this.errorMessage, {
+    this.reason,
+  });
 
   final String errorMessage;
+  final HomeErrorReason? reason;
 
   @override
-  List<Object?> get props => [errorMessage];
+  List<Object?> get props => [
+        errorMessage,
+        reason,
+      ];
+}
+
+enum HomeErrorReason {
+  /// The server is unreachable.
+  networkError,
 }

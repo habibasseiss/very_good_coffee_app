@@ -4,6 +4,7 @@ import 'package:very_good_coffee_app/app/routes.dart';
 import 'package:very_good_coffee_app/features/favorites/favorites.dart';
 import 'package:very_good_coffee_app/features/home/home.dart';
 import 'package:very_good_coffee_app/l10n/l10n.dart';
+import 'package:very_good_coffee_app/repositories/coffee/coffee.dart';
 
 /// {@template home_screen}
 /// A [StatelessWidget] which is responsible for providing a [HomeBloc]
@@ -43,6 +44,8 @@ class HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final state = context.select((HomeBloc bloc) => bloc.state);
+    final favoritesCount =
+        context.select((FavoritesBloc bloc) => bloc.state.coffees.length);
 
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -58,7 +61,11 @@ class HomeView extends StatelessWidget {
         ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.list),
+            icon: Badge(
+              isLabelVisible: favoritesCount > 0,
+              label: Text(favoritesCount.toString()),
+              child: const Icon(Icons.list),
+            ),
             onPressed: () {
               FavoritesRoute().go(context);
             },
@@ -72,7 +79,11 @@ class HomeView extends StatelessWidget {
           _PageGradient(),
         ],
       ),
-      floatingActionButton: const _LikeButton(),
+      floatingActionButton: state is HomeLoaded
+          ? _LikeButton(
+              coffee: state.coffee,
+            )
+          : null,
     );
   }
 }
@@ -97,11 +108,41 @@ class _ImageDisplay extends StatelessWidget {
               state.coffee.image,
               fit: BoxFit.cover,
             ),
-          HomeError() || _ => const Center(
-              child: Text('Error loading image'),
-            ),
+          HomeError() || _ => const _DisplayHomeError(),
         };
       },
+    );
+  }
+}
+
+class _DisplayHomeError extends StatelessWidget {
+  const _DisplayHomeError();
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    final state = context.select((HomeBloc bloc) => bloc.state);
+
+    if (state is HomeError && state.reason == HomeErrorReason.networkError) {
+      return Column(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Icon(
+            Icons.cloud_off_outlined,
+            size: 64,
+          ),
+          const SizedBox(height: 16),
+          Text(
+            l10n.networkErrorLoadingImage,
+            textAlign: TextAlign.center,
+          ),
+        ],
+      );
+    }
+
+    return Center(
+      child: Text(l10n.errorLoadingImage),
     );
   }
 }
@@ -135,44 +176,44 @@ class _PageGradient extends StatelessWidget {
 }
 
 class _LikeButton extends StatelessWidget {
-  const _LikeButton();
+  const _LikeButton({
+    required this.coffee,
+  });
+
+  final Coffee coffee;
 
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    final state = context.select((HomeBloc bloc) => bloc.state);
 
-    if (state is HomeLoaded) {
-      final liked = context
-          .select((FavoritesBloc bloc) => bloc.state)
-          .isFavorite(state.coffee);
-      final favoriteLoading =
-          context.select((FavoritesBloc bloc) => bloc.state.isLoading);
+    return BlocBuilder<FavoritesBloc, FavoritesState>(
+      builder: (context, state) {
+        final liked = state.isFavorite(coffee);
+        final favoriteLoading = state.isLoading;
 
-      return FloatingActionButton.extended(
-        backgroundColor: Colors.transparent,
-        focusElevation: 0,
-        hoverElevation: 0,
-        disabledElevation: 0,
-        highlightElevation: 0,
-        elevation: 0,
-        onPressed: liked || favoriteLoading
-            ? null
-            : () => context
-                .read<FavoritesBloc>()
-                .add(AddFavoriteCoffeeEvent(coffee: state.coffee)),
-        label: Text(l10n.likeButton),
-        icon: liked
-            ? const Icon(
-                Icons.favorite,
-                color: Colors.pink,
-              )
-            : const Icon(
-                Icons.favorite_border,
-              ),
-      );
-    }
-
-    return const SizedBox.shrink();
+        return FloatingActionButton.extended(
+          backgroundColor: Colors.transparent,
+          focusElevation: 0,
+          hoverElevation: 0,
+          disabledElevation: 0,
+          highlightElevation: 0,
+          elevation: 0,
+          onPressed: liked || favoriteLoading
+              ? null
+              : () => context
+                  .read<FavoritesBloc>()
+                  .add(AddFavoriteCoffeeEvent(coffee: coffee)),
+          label: Text(l10n.likeButton),
+          icon: liked
+              ? const Icon(
+                  Icons.favorite,
+                  color: Colors.pink,
+                )
+              : const Icon(
+                  Icons.favorite_border,
+                ),
+        );
+      },
+    );
   }
 }

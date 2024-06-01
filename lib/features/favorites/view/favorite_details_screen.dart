@@ -25,10 +25,12 @@ class FavoriteDetailsScreen extends StatelessWidget {
       ),
       body: InteractiveViewer(
         child: SizedBox.expand(
-          child: Hero(
-            tag: coffee.url,
-            child: Image.memory(
-              coffee.image,
+          child: Center(
+            child: Hero(
+              tag: coffee.url,
+              child: Image.memory(
+                coffee.image,
+              ),
             ),
           ),
         ),

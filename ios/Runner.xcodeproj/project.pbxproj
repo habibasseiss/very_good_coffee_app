@@ -185,7 +185,6 @@
 				611272B7358F2F7000FABC01 /* Pods-RunnerTests.profile-staging.xcconfig */,
 				7E21542F4D2F283D9D1DE157 /* Pods-RunnerTests.profile-development.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -502,6 +501,7 @@
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
 				ENABLE_BITCODE = NO;
 				FLAVOR_APP_NAME = "Very Good Coffee App";
+				FLUTTER_TARGET = lib/main_production.dart;
 				INFOPLIST_FILE = Runner/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Very Good Coffee App";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -604,6 +604,7 @@
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
 				ENABLE_BITCODE = NO;
 				FLAVOR_APP_NAME = "Very Good Coffee App";
+				FLUTTER_TARGET = lib/main_production.dart;
 				INFOPLIST_FILE = Runner/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Very Good Coffee App";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -701,6 +702,7 @@
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
 				ENABLE_BITCODE = NO;
 				FLAVOR_APP_NAME = "Very Good Coffee App";
+				FLUTTER_TARGET = lib/main_production.dart;
 				INFOPLIST_FILE = Runner/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Very Good Coffee App";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -803,6 +805,7 @@
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
 				ENABLE_BITCODE = NO;
 				FLAVOR_APP_NAME = "[DEV] Very Good Coffee App";
+				FLUTTER_TARGET = lib/main_development.dart;
 				INFOPLIST_FILE = Runner/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Very Good Coffee App";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -903,6 +906,7 @@
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
 				ENABLE_BITCODE = NO;
 				FLAVOR_APP_NAME = "[DEV] Very Good Coffee App";
+				FLUTTER_TARGET = lib/main_development.dart;
 				INFOPLIST_FILE = Runner/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Very Good Coffee App";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1002,6 +1006,7 @@
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
 				ENABLE_BITCODE = NO;
 				FLAVOR_APP_NAME = "[DEV] Very Good Coffee App";
+				FLUTTER_TARGET = lib/main_development.dart;
 				INFOPLIST_FILE = Runner/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Very Good Coffee App";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1104,6 +1109,7 @@
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
 				ENABLE_BITCODE = NO;
 				FLAVOR_APP_NAME = "[STG] Very Good Coffee App";
+				FLUTTER_TARGET = lib/main_staging.dart;
 				INFOPLIST_FILE = Runner/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Very Good Coffee App";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1206,6 +1212,7 @@
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
 				ENABLE_BITCODE = NO;
 				FLAVOR_APP_NAME = "[STG] Very Good Coffee App";
+				FLUTTER_TARGET = lib/main_staging.dart;
 				INFOPLIST_FILE = Runner/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Very Good Coffee App";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1303,6 +1310,7 @@
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
 				ENABLE_BITCODE = NO;
 				FLAVOR_APP_NAME = "[STG] Very Good Coffee App";
+				FLUTTER_TARGET = lib/main_staging.dart;
 				INFOPLIST_FILE = Runner/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Very Good Coffee App";
 				LD_RUNPATH_SEARCH_PATHS = (

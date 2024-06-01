@@ -16,8 +16,12 @@ class FavoritesState extends Equatable {
   /// Indicates if favorites are loading
   final bool isLoading;
 
-  /// Returns true if a coffee is set as favorite
-  bool isFavorite(Coffee coffee) => coffees.contains(coffee);
+  /// Returns true if a coffee is set as favorite. This is determined by
+  /// checking if the coffee's url is present in the list of favorite coffees.
+  /// Full object comparison is not possible because the image id is not
+  /// available if it's not saved in the database.
+  bool isFavorite(Coffee coffee) =>
+      coffees.map((e) => e.url).contains(coffee.url);
 
   @override
   List<Object> get props => [

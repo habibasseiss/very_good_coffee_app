@@ -10,7 +10,7 @@ abstract class CoffeeDao {
   Stream<Coffee?> selectCoffeeById(int id);
 
   @insert
-  Future<void> insertCoffee(Coffee coffee);
+  Future<int> insertCoffee(Coffee coffee);
 
   @delete
   Future<void> deleteCoffee(Coffee coffee);

@@ -1,25 +1,25 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:very_good_coffee_app/repositories/coffee/coffee.dart';
-import 'package:very_good_coffee_app/services/services.dart';
+import 'package:very_good_coffee_app/services/api_service/coffee_api_service.dart';
 
 import '../helpers/helpers.dart';
 
-class MockApiService extends Mock implements ApiService {}
+class MockCoffeeApiService extends Mock implements CoffeeApiService {}
 
 void main() {
   const testFilePath = 'https://apitest.dev/GhoCm_jVlXg_coffee.png';
 
   TestWidgetsFlutterBinding.ensureInitialized();
 
-  final mockApiService = MockApiService();
+  final mockApiService = MockCoffeeApiService();
   final apiCoffeeRepository = ApiCoffeeRepository(
-    apiService: mockApiService,
+    coffeeApiService: mockApiService,
   );
 
   group('Testing Coffee Repository', () {
     setUp(() {
-      when(() => mockApiService.get('/random.json')).thenAnswer(
+      when(mockApiService.getRandom).thenAnswer(
         (_) async => <String, dynamic>{
           'file': testFilePath,
         },
@@ -39,7 +39,7 @@ void main() {
 
   group('Testing Coffee Repository Exception', () {
     setUp(() {
-      when(() => mockApiService.get('/random.json')).thenThrow(
+      when(mockApiService.getRandom).thenThrow(
         Exception('Failed to fetch a random coffee'),
       );
     });

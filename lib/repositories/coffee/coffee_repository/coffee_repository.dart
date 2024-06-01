@@ -13,7 +13,16 @@ abstract class CoffeeRepository {
 /// {@endtemplate}
 class GetRandomCoffeeFailure implements Exception {
   /// {@macro get_random_coffee_failure}
-  const GetRandomCoffeeFailure(this.message);
+  const GetRandomCoffeeFailure(
+    this.message, {
+    this.reason,
+  });
 
   final String message;
+  final GetRandomCoffeeFailureReason? reason;
+}
+
+enum GetRandomCoffeeFailureReason {
+  /// The server is unreachable.
+  networkError,
 }

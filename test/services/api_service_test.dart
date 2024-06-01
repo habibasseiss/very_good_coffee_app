@@ -3,28 +3,28 @@ import 'dart:convert';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:mocktail/mocktail.dart';
-import 'package:very_good_coffee_app/services/api_service/api_service.dart';
+import 'package:very_good_coffee_app/services/api_service/coffee_api_service.dart';
 
 class MockHttpClient extends Mock implements http.Client {}
 
 void main() {
-  const endpoint = 'api.example.com';
+  const baseUrl = 'api.example.com';
 
   final mockHttpClient = MockHttpClient();
 
-  final apiService = ApiService(
-    endpoint: endpoint,
+  final apiService = CoffeeApiService(
+    baseUrl: baseUrl,
     httpClient: mockHttpClient,
   );
 
   group('ApiService', () {
     test('ApiService singleton instance is created with given endpoint', () {
-      final anotherApiService = ApiService(
-        endpoint: 'another.endpoint.com',
+      final anotherApiService = CoffeeApiService(
+        baseUrl: 'another.endpoint.com',
         httpClient: mockHttpClient,
       );
       expect(anotherApiService, apiService);
-      expect(apiService.endpoint, endpoint);
+      expect(apiService.baseUrl, baseUrl);
     });
 
     test('ApiService creates correct URI', () {
@@ -33,7 +33,7 @@ void main() {
         uri,
         Uri(
           scheme: 'https',
-          host: endpoint,
+          host: baseUrl,
           port: 443,
           path: '/test-path',
         ),

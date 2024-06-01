@@ -167,8 +167,9 @@ class _$CoffeeDao extends CoffeeDao {
   }
 
   @override
-  Future<void> insertCoffee(Coffee coffee) async {
-    await _coffeeInsertionAdapter.insert(coffee, OnConflictStrategy.abort);
+  Future<int> insertCoffee(Coffee coffee) {
+    return _coffeeInsertionAdapter.insertAndReturnId(
+        coffee, OnConflictStrategy.abort);
   }
 
   @override

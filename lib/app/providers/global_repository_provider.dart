@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:very_good_coffee_app/bootstrap.dart';
 import 'package:very_good_coffee_app/repositories/coffee/coffee.dart';
 import 'package:very_good_coffee_app/repositories/favorites/favorites.dart';
+import 'package:very_good_coffee_app/services/api_service/coffee_api_service.dart';
 import 'package:very_good_coffee_app/services/database_service/database_service.dart';
 import 'package:very_good_coffee_app/services/services.dart';
 
@@ -22,8 +23,8 @@ class GlobalRepositoryProvider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final apiService = ApiService(
-      endpoint: 'coffee.alexflipnote.dev',
+    final coffeeApiService = CoffeeApiService(
+      baseUrl: 'coffee.alexflipnote.dev',
       httpClient: http.Client(),
     );
 
@@ -31,7 +32,7 @@ class GlobalRepositoryProvider extends StatelessWidget {
       providers: [
         RepositoryProvider<CoffeeRepository>(
           create: (context) => ApiCoffeeRepository(
-            apiService: apiService,
+            coffeeApiService: coffeeApiService,
           ),
         ),
         RepositoryProvider<FavoritesRepository>(

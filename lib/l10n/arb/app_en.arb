@@ -11,5 +11,13 @@
     "youHaveNoFavoritesYet": "You have no favorites yet\nGo add some!",
     "@youHaveNoFavoritesYet": {
         "description": "Message displayed when the user has no favorites"
+    },
+    "networkErrorLoadingImage": "Network error loading image.\nPlease try again.",
+    "@networkErrorLoadingImage": {
+        "description": "Message displayed for network error when loading image"
+    },
+    "errorLoadingImage": "Error loading image",
+    "@errorLoadingImage": {
+        "description": "Message displayed for generic error when loading image"
     }
 }

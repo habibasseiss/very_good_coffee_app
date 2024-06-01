@@ -14,7 +14,7 @@ class ApiFavoritesRepository extends FavoritesRepository {
   final DatabaseService databaseService;
 
   @override
-  Future<void> addFavorite({required Coffee coffee}) {
+  Future<int> addFavorite({required Coffee coffee}) {
     return databaseService.coffeeDao.insertCoffee(coffee);
   }
 

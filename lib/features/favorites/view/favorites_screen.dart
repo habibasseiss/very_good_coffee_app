@@ -15,6 +15,8 @@ class FavoritesScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
 
+    context.read<FavoritesBloc>().add(const LoadFavoritesEvent());
+
     return Scaffold(
       appBar: AppBar(
         title: Text(l10n.favorites),

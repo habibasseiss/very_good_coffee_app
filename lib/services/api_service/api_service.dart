@@ -4,35 +4,20 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 
-/// Singleton class that provides methods to interact with an API, given a
-/// [endpoint].
-class ApiService {
-  factory ApiService({
-    required String endpoint,
-    required http.Client httpClient,
-  }) {
-    _instance ??= ApiService._(
-      httpClient: httpClient,
-      endpoint: endpoint,
-    );
-
-    return _instance!;
-  }
-
-  ApiService._({
-    required this.endpoint,
+/// Base class that provides methods to interact with an API.
+abstract class ApiService {
+  ApiService({
+    required this.baseUrl,
     required this.httpClient,
     this.scheme = 'https',
     this.port = 443,
   });
 
-  static ApiService? _instance;
-
   /// The HTTP client used to make requests, e.g. [http.Client()].
   final http.Client httpClient;
 
-  /// The base URL (endpoint for the API).
-  final String endpoint;
+  /// The base URL for the API.
+  final String baseUrl;
 
   /// The URI scheme.
   final String scheme;
@@ -48,11 +33,11 @@ class ApiService {
     return json.decode(response.body) as Map<String, dynamic>;
   }
 
-  /// Makes a [Uri] from a [path] by combining it with the [endpoint].
+  /// Makes a [Uri] from a [path] by combining it with the [baseUrl].
   Uri makeUri(String path) {
     return Uri(
       scheme: scheme,
-      host: endpoint,
+      host: baseUrl,
       port: port,
       path: path,
     );

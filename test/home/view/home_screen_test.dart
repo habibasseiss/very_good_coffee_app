@@ -33,6 +33,11 @@ void main() {
   final favoritesBloc = MockFavoritesBloc();
   final goRouter = MockGoRouter();
 
+  final coffee = Coffee(
+    image: testMemoryImage,
+    url: testFilePath,
+  );
+
   final homeView = RepositoryProvider<CoffeeRepository>(
     create: (context) => MockCoffeeRepository(),
     child: MaterialApp(
@@ -61,42 +66,27 @@ void main() {
           'file': testFilePath,
         },
       );
-
       when(mockCoffeeRepository.getRandomCoffee).thenAnswer(
         (_) async => Coffee(
           image: testMemoryImage,
           url: testFilePath,
         ),
       );
-    });
-
-    testWidgets('renders HomePage', (tester) async {
-      await tester.pumpWidget(
-        RepositoryProvider<CoffeeRepository>(
-          create: (context) => mockCoffeeRepository,
-          child: const MaterialApp(
-            localizationsDelegates: AppLocalizations.localizationsDelegates,
-            home: HomeScreen(),
-          ),
-        ),
-      );
-      expect(find.byType(HomeView), findsOneWidget);
-    });
-
-    testWidgets('HomeView can reload, navigate to favorites and like coffee',
-        (tester) async {
-      final coffee = Coffee(
-        image: testMemoryImage,
-        url: testFilePath,
-      );
-
       when(() => homeBloc.state).thenReturn(
         HomeLoaded(coffee: coffee),
       );
       when(() => favoritesBloc.state).thenReturn(
         const FavoritesState(),
       );
+    });
 
+    testWidgets('renders HomePage', (tester) async {
+      await tester.pumpWidget(homeView);
+      expect(find.byType(HomeView), findsOneWidget);
+    });
+
+    testWidgets('HomeView can reload, navigate to favorites and like coffee',
+        (tester) async {
       await tester.pumpWidget(homeView);
 
       // Refresh button should load a random photo

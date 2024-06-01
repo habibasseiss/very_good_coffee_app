@@ -5,7 +5,7 @@ abstract class FavoritesRepository {
   Future<List<Coffee>> getFavorites();
 
   /// Add a coffee to favorites.
-  Future<void> addFavorite({required Coffee coffee});
+  Future<int> addFavorite({required Coffee coffee});
 
   /// Remove a coffee from favorites.
   Future<void> removeFavorite({required Coffee coffee});
