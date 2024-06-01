@@ -32,6 +32,7 @@ class FavoritesScreen extends StatelessWidget {
           if (state.coffees.isEmpty) {
             return Center(
               child: Text(
+                key: const Key('favorites_screen_no_navorites_text'),
                 l10n.youHaveNoFavoritesYet,
                 textAlign: TextAlign.center,
               ),

@@ -8,6 +8,7 @@ import 'package:very_good_coffee_app/features/favorites/favorites.dart';
 import 'package:very_good_coffee_app/features/home/home.dart';
 import 'package:very_good_coffee_app/l10n/l10n.dart';
 import 'package:very_good_coffee_app/repositories/coffee/coffee.dart';
+import 'package:very_good_coffee_app/repositories/favorites/favorites.dart';
 import 'package:very_good_coffee_app/services/services.dart';
 
 import '../../../helpers/helpers.dart';
@@ -15,6 +16,8 @@ import '../../../helpers/helpers.dart';
 class MockApiService extends Mock implements ApiService {}
 
 class MockCoffeeRepository extends Mock implements CoffeeRepository {}
+
+class MockFavoritesRepository extends Mock implements FavoritesRepository {}
 
 class MockHomeBloc extends MockBloc<HomeEvent, HomeState> implements HomeBloc {}
 
@@ -28,10 +31,16 @@ void main() {
 
   final mockApiService = MockApiService();
   final mockCoffeeRepository = MockCoffeeRepository();
+  final mockFavoritesRepository = MockFavoritesRepository();
 
   final homeBloc = MockHomeBloc();
   final favoritesBloc = MockFavoritesBloc();
   final goRouter = MockGoRouter();
+
+  final temporaryCoffee = Coffee(
+    image: testMemoryImage,
+    url: testFilePath,
+  );
 
   final homeView = RepositoryProvider<CoffeeRepository>(
     create: (context) => MockCoffeeRepository(),
@@ -67,12 +76,43 @@ void main() {
           url: testFilePath,
         ),
       );
+      when(mockFavoritesRepository.getFavorites).thenAnswer(
+        (_) async => [],
+      );
       when(() => homeBloc.state).thenReturn(
-        HomeLoaded(coffee: testCoffee1),
+        const HomeInitial(),
       );
       when(() => favoritesBloc.state).thenReturn(
         const FavoritesState(),
       );
+      when(() => homeBloc.state).thenReturn(
+        HomeLoaded(coffee: temporaryCoffee),
+      );
+      when(() => favoritesBloc.state).thenReturn(
+        const FavoritesState(),
+      );
+    });
+
+    testWidgets('renders HomeScreen', (tester) async {
+      await tester.pumpWidget(
+        MultiRepositoryProvider(
+          providers: [
+            RepositoryProvider<CoffeeRepository>(
+              create: (context) => mockCoffeeRepository,
+            ),
+            RepositoryProvider<FavoritesRepository>(
+              create: (context) => mockFavoritesRepository,
+            ),
+          ],
+          child: const MaterialApp(
+            localizationsDelegates: AppLocalizations.localizationsDelegates,
+            home: HomeScreen(),
+          ),
+        ),
+      );
+
+      expect(find.byType(MultiBlocProvider), findsOneWidget);
+      expect(find.byType(HomeView), findsOneWidget);
     });
 
     testWidgets('renders HomePage', (tester) async {
@@ -97,7 +137,7 @@ void main() {
       await tester.tap(find.byIcon(Icons.favorite_border));
       verify(
         () => favoritesBloc.add(
-          AddFavoriteCoffeeEvent(coffee: testCoffee1),
+          AddFavoriteCoffeeEvent(coffee: temporaryCoffee),
         ),
       ).called(1);
     });
@@ -127,6 +167,29 @@ void main() {
           AddFavoriteCoffeeEvent(coffee: coffee),
         ),
       );
+    });
+
+    testWidgets('HomeView displays general error message on failure',
+        (tester) async {
+      when(() => homeBloc.state).thenReturn(
+        const HomeError('Error loading coffee'),
+      );
+
+      await tester.pumpWidget(homeView);
+      expect(find.byKey(const Key('home_error')), findsOneWidget);
+    });
+
+    testWidgets('HomeView displays network error message on failure',
+        (tester) async {
+      when(() => homeBloc.state).thenReturn(
+        const HomeError(
+          'Error loading coffee',
+          reason: HomeErrorReason.networkError,
+        ),
+      );
+
+      await tester.pumpWidget(homeView);
+      expect(find.byKey(const Key('home_error')), findsOneWidget);
     });
   });
 }

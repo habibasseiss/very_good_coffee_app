@@ -108,7 +108,9 @@ class _ImageDisplay extends StatelessWidget {
               state.coffee.image,
               fit: BoxFit.cover,
             ),
-          HomeError() || _ => const _DisplayHomeError(),
+          HomeError() || _ => const _DisplayHomeError(
+              key: Key('home_error'),
+            ),
         };
       },
     );
@@ -116,7 +118,7 @@ class _ImageDisplay extends StatelessWidget {
 }
 
 class _DisplayHomeError extends StatelessWidget {
-  const _DisplayHomeError();
+  const _DisplayHomeError({super.key});
 
   @override
   Widget build(BuildContext context) {
