@@ -1,2 +1,2 @@
 #!/bin/sh
-very_good test --coverage --exclude-coverage "**/*.g.dart" --test-randomize-ordering-seed random && lcov --remove ./coverage/lcov.info "**/*.g.dart" -o ./coverage/lcov_clean.info && genhtml ./coverage/lcov_clean.info -o coverage && open ./coverage/index.html
+very_good test --coverage --exclude-coverage "**/*.g.dart" --test-randomize-ordering-seed random && lcov --remove ./coverage/lcov.info "**/*.g.dart" -o ./coverage/lcov_clean.info && genhtml ./coverage/lcov_clean.info -o coverage
