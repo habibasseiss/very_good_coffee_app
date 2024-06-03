@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:very_good_coffee_app/app/routes.dart';
+import 'package:very_good_coffee_app/app/routes/routes.dart';
 import 'package:very_good_coffee_app/features/favorites/favorites.dart';
 import 'package:very_good_coffee_app/features/home/home.dart';
 import 'package:very_good_coffee_app/l10n/l10n.dart';

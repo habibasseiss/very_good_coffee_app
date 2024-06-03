@@ -1,7 +1,7 @@
-import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
+import 'package:http/http.dart' as http;
 import 'package:mocktail/mocktail.dart';
 import 'package:very_good_coffee_app/repositories/coffee/coffee.dart';
 import 'package:very_good_coffee_app/services/api_service/coffee_api_service.dart';
@@ -60,7 +60,7 @@ void main() {
     });
   });
 
-  group('Testing Coffee Repository SocketException Exception', () {
+  group('Testing Coffee Repository HttpException Exception', () {
     setUp(() {
       when(mockApiService.getRandom).thenThrow(
         const HttpException('Failed to fetch a random coffee'),
@@ -80,10 +80,10 @@ void main() {
     });
   });
 
-  group('Testing Coffee Repository SocketException Exception', () {
+  group('Testing Coffee Repository http.ClientException Exception', () {
     setUp(() {
       when(mockApiService.getRandom).thenThrow(
-        TimeoutException('Failed to fetch a random coffee'),
+        http.ClientException('Failed to fetch a random coffee'),
       );
     });
     test('Test get random coffee should throw exception', () async {

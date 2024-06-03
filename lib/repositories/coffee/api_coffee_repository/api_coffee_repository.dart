@@ -46,12 +46,12 @@ class ApiCoffeeRepository extends CoffeeRepository {
       );
     } on HttpException catch (e) {
       throw GetRandomCoffeeFailure(
-        'Failed to fetch a random coffee: $e',
+        'Failed to connect to the server: $e',
         reason: GetRandomCoffeeFailureReason.networkError,
       );
-    } on TimeoutException catch (e) {
+    } on http.ClientException catch (e) {
       throw GetRandomCoffeeFailure(
-        'Connection timed out: $e',
+        'Failed to connect to the server: $e',
         reason: GetRandomCoffeeFailureReason.networkError,
       );
     } on Exception catch (e) {

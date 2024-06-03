@@ -4,7 +4,7 @@ import 'package:very_good_coffee_app/features/favorites/favorites.dart';
 
 /// {@template global_bloc_provider}
 /// A provider widget that provides global blocs to the widget tree. It
-/// instantiates [FavoritesBloc].
+/// instantiates [FavoritesBloc] so it can be shared by multiple screens.
 /// {@endtemplate}
 class GlobalBlocProvider extends StatelessWidget {
   /// {@macro global_bloc_provider}

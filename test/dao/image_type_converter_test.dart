@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:very_good_coffee_app/dao/image_type_converter.dart';
+import 'package:very_good_coffee_app/services/database_service/dao/image_type_converter.dart';
 
 void main() {
   group('ImageTypeConverter', () {

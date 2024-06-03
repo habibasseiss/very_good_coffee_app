@@ -1,6 +1,5 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:http/http.dart' as http;
 import 'package:very_good_coffee_app/bootstrap.dart';
 import 'package:very_good_coffee_app/repositories/coffee/coffee.dart';
 import 'package:very_good_coffee_app/repositories/favorites/favorites.dart';
@@ -23,16 +22,11 @@ class GlobalRepositoryProvider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final coffeeApiService = CoffeeApiService(
-      baseUrl: 'coffee.alexflipnote.dev',
-      httpClient: http.Client(),
-    );
-
     return MultiRepositoryProvider(
       providers: [
         RepositoryProvider<CoffeeRepository>(
           create: (context) => ApiCoffeeRepository(
-            coffeeApiService: coffeeApiService,
+            coffeeApiService: locator.get<CoffeeApiService>(),
           ),
         ),
         RepositoryProvider<FavoritesRepository>(

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:very_good_coffee_app/app/routes.dart';
+import 'package:very_good_coffee_app/app/routes/routes.dart';
 import 'package:very_good_coffee_app/features/favorites/favorites.dart';
 import 'package:very_good_coffee_app/features/home/home.dart';
 

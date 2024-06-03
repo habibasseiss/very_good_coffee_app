@@ -5,6 +5,8 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get_it/get_it.dart';
+import 'package:http/http.dart' as http;
+import 'package:very_good_coffee_app/services/api_service/coffee_api_service.dart';
 import 'package:very_good_coffee_app/services/database_service/database_service.dart';
 
 final locator = GetIt.instance;
@@ -49,6 +51,13 @@ Future<void> bootstrap(FutureOr<Widget> Function() builder) async {
   // Register the database service
   final db = await $FloorDatabaseService.databaseBuilder('database.db').build();
   locator.registerSingleton<DatabaseService>(db);
+
+  // Register the coffee api service
+  final coffeeApiService = CoffeeApiService(
+    baseUrl: 'coffee.alexflipnote.dev',
+    httpClient: http.Client(),
+  );
+  locator.registerSingleton<CoffeeApiService>(coffeeApiService);
 
   runApp(await builder());
 }
